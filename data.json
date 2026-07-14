@@ -49,7 +49,7 @@
       "amount": 24000,
       "date": "2026-05-09",
       "type": "out",
-      "done": false
+      "done": true
     },
     {
       "id": "r5",
@@ -60,5 +60,6 @@
       "done": false
     }
   ],
-  "goals": []
+  "goals": [],
+  "records": []
 }
