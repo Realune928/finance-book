@@ -52,7 +52,7 @@
       "amount": 90000,
       "date": "",
       "type": "out",
-      "done": false
+      "done": true
     }
   ],
   "goals": [],
