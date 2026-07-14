@@ -6,62 +6,97 @@
 <title>我的财务本</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{background:#f5f0e8;font-family:system-ui,-apple-system,'Helvetica Neue',sans-serif;color:#2d2820;min-height:100vh;padding-bottom:60px}
-.header{background:#faf8f4;padding:20px 18px 14px;border-bottom:1px solid #e2dccf;position:sticky;top:0;z-index:100}
-.header-top{display:flex;justify-content:space-between;align-items:center}
-.app-title{font-size:20px;font-weight:700}
-.sync-row{display:flex;align-items:center;gap:5px;font-size:11px;color:#9a9284}
-.sync-dot{width:6px;height:6px;border-radius:50%;background:#5a7a5a;transition:background .3s}
-.sync-dot.saving{background:#c4a85a}.sync-dot.error{background:#c47a6a}
-.date-text{font-size:12px;color:#5a5248;margin-top:4px}
-.alert-banner{margin:12px 16px 0;background:#fbf0ea;border:1px solid #e8c4b4;color:#c47a6a;border-radius:10px;padding:10px 14px;font-size:12.5px;line-height:1.6}
-.container{max-width:480px;margin:0 auto;padding:16px}
-.card{background:#faf8f4;border:1px solid #e2dccf;border-radius:14px;padding:16px;margin-bottom:14px}
-.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+body{background:#f5f0e8;font-family:system-ui,-apple-system,sans-serif;color:#2d2820;min-height:100vh;padding-bottom:70px}
+/* Header */
+.header{background:#faf8f4;padding:16px 18px 12px;border-bottom:1px solid #e2dccf;position:sticky;top:0;z-index:100}
+.header-row{display:flex;justify-content:space-between;align-items:center}
+.app-title{font-size:19px;font-weight:700}
+.sync-badge{display:flex;align-items:center;gap:4px;font-size:11px;color:#9a9284}
+.dot{width:6px;height:6px;border-radius:50%;background:#5a7a5a}
+.dot.saving{background:#c4a85a}.dot.error{background:#c47a6a}
+.date-sub{font-size:11.5px;color:#5a5248;margin-top:3px}
+/* Alert */
+.alert{margin:10px 14px 0;background:#fbf0ea;border:1px solid #e8c4b4;color:#c47a6a;border-radius:10px;padding:9px 13px;font-size:12px;line-height:1.6}
+/* Bottom nav */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#faf8f4;border-top:1px solid #e2dccf;display:flex;z-index:200;padding-bottom:env(safe-area-inset-bottom)}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 4px 7px;background:none;border:none;cursor:pointer;font-family:inherit;color:#9a9284;font-size:10px;gap:3px;transition:color .2s}
+.nav-btn.active{color:#5a7a5a}
+.nav-icon{font-size:20px;line-height:1}
+/* Container */
+.container{max-width:480px;margin:0 auto;padding:14px}
+.page{display:none}.page.active{display:block}
+/* Card */
+.card{background:#faf8f4;border:1px solid #e2dccf;border-radius:14px;padding:15px;margin-bottom:12px}
+.card-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .card-title{font-size:15px;font-weight:600}
-.add-btn{background:none;border:1px solid #c4d4c4;color:#5a7a5a;font-size:12px;padding:5px 11px;border-radius:20px;cursor:pointer;font-family:inherit}
-.overview-grid{display:flex;justify-content:space-between;text-align:center}
-.ov-label{font-size:11px;color:#9a9284;margin-bottom:6px}
-.ov-value{font-size:20px;font-weight:700}
-.item-list{display:flex;flex-direction:column;gap:10px}
-.empty-hint{font-size:12.5px;color:#9a9284;padding:6px 2px}
-.row-item{background:#f5f0e8;border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.row-left{flex:1;min-width:0}
+.add-btn{background:none;border:1px solid #c4d4c4;color:#5a7a5a;font-size:12px;padding:4px 11px;border-radius:18px;cursor:pointer;font-family:inherit}
+/* Overview grid */
+.ov-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
+.ov-item{background:#f5f0e8;border-radius:10px;padding:12px;text-align:center}
+.ov-item.full{grid-column:1/-1}
+.ov-label{font-size:11px;color:#9a9284;margin-bottom:5px}
+.ov-value{font-size:22px;font-weight:700}
+.green{color:#5a7a5a}.red{color:#c47a6a}.gold{color:#c4a85a}
+/* Section divider */
+.sec-div{font-size:11px;color:#9a9284;padding:4px 2px 8px;letter-spacing:.5px;text-transform:uppercase}
+/* Row items */
+.item-list{display:flex;flex-direction:column;gap:9px}
+.empty{font-size:12.5px;color:#9a9284;padding:6px 2px;text-align:center}
+.row{background:#f5f0e8;border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.row-l{flex:1;min-width:0}
 .row-name{font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .row-meta{font-size:11px;color:#9a9284;display:flex;align-items:center;gap:5px;margin-top:3px}
-.status-dot{width:6px;height:6px;border-radius:50%;display:inline-block;flex-shrink:0}
-.dot-pending{background:#c4a85a}.dot-overdue{background:#c47a6a}.dot-done{background:#5a7a5a}
-.row-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.sdot{width:6px;height:6px;border-radius:50%;display:inline-block;flex-shrink:0}
+.sp{background:#c4a85a}.so{background:#c47a6a}.sd{background:#5a7a5a}
+.row-r{display:flex;align-items:center;gap:5px;flex-shrink:0}
 .row-amt{font-size:15px;font-weight:700}
-.amt-in{color:#5a7a5a}.amt-out{color:#c47a6a}
-.tiny-btn{background:none;border:none;color:#9a9284;font-size:15px;cursor:pointer;padding:2px 3px;line-height:1;font-family:inherit}
-.divider{border-top:1px solid #e2dccf;margin-top:10px;padding-top:10px;display:flex;justify-content:space-between}
-.total-label{font-size:13px;font-weight:600;color:#5a7a5a}
-.total-value{font-size:18px;font-weight:700;color:#5a7a5a}
-.goal-item{background:#f5f0e8;border-radius:10px;padding:10px 12px}
-.goal-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
-.goal-name{font-size:13.5px}.goal-amt{font-size:11.5px;color:#5a5248}
-.progress-track{background:#e2dccf;border-radius:6px;height:7px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,#8a9e8a,#c4a85a);border-radius:6px;transition:width .3s}
-.goal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
-.footer-note{text-align:center;font-size:11px;color:#9a9284;padding:6px 0 20px}
-.overlay{position:fixed;inset:0;background:rgba(45,40,32,.45);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px}
+.tbtn{background:none;border:none;color:#9a9284;font-size:15px;cursor:pointer;padding:2px;line-height:1;font-family:inherit}
+/* Totals */
+.total-row{border-top:1px solid #e2dccf;margin-top:10px;padding-top:10px;display:flex;justify-content:space-between;align-items:center}
+.total-l{font-size:13px;font-weight:600;color:#5a7a5a}
+.total-v{font-size:18px;font-weight:700;color:#5a7a5a}
+/* Progress */
+.goal-block{background:#f5f0e8;border-radius:10px;padding:10px 12px;margin-bottom:9px}
+.goal-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+.goal-name{font-size:13.5px}
+.goal-pct{font-size:11.5px;color:#5a5248}
+.track{background:#e2dccf;border-radius:5px;height:7px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,#8a9e8a,#c4a85a);border-radius:5px;transition:width .3s}
+.goal-bot{display:flex;justify-content:space-between;align-items:center;margin-top:7px}
+.goal-sub{font-size:11px;color:#9a9284}
+/* Records tab */
+.type-toggle{display:flex;gap:8px;margin-bottom:12px}
+.type-btn{flex:1;padding:8px;border-radius:8px;border:1px solid #e2dccf;background:#f5f0e8;color:#9a9284;font-size:13px;cursor:pointer;font-family:inherit}
+.type-btn.in{border-color:#5a7a5a;background:#e8f4e8;color:#5a7a5a}
+.type-btn.out{border-color:#c47a6a;background:#faeae8;color:#c47a6a}
+.month-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.month-label{font-size:14px;font-weight:600}
+.arrow{background:none;border:1px solid #e2dccf;color:#5a5248;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center}
+/* Form area */
+.form-card{background:#faf8f4;border:1px solid #e2dccf;border-radius:14px;padding:15px;margin-bottom:12px}
+.form-title{font-size:14px;font-weight:600;margin-bottom:11px}
+.field{margin-bottom:10px}
+.field label{display:block;font-size:11.5px;color:#5a5248;margin-bottom:4px}
+.field input,.field select{width:100%;padding:8px 10px;border:1px solid #e2dccf;border-radius:8px;font-size:13.5px;background:#f5f0e8;color:#2d2820;font-family:inherit}
+.submit-btn{width:100%;padding:10px;background:#5a7a5a;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;margin-top:4px}
+/* Modal */
+.overlay{position:fixed;inset:0;background:rgba(45,40,32,.45);display:flex;align-items:center;justify-content:center;z-index:300;padding:20px}
 .modal{background:#faf8f4;border-radius:14px;padding:20px;width:100%;max-width:360px}
-.modal-title{font-size:17px;font-weight:700;margin-bottom:14px}
-.field{margin-bottom:12px}
-.field label{display:block;font-size:11.5px;color:#5a5248;margin-bottom:5px}
-.field input,.field select{width:100%;padding:9px 10px;border:1px solid #e2dccf;border-radius:8px;font-size:14px;background:#f5f0e8;color:#2d2820;font-family:inherit}
-.modal-actions{display:flex;gap:10px;margin-top:16px}
-.btn{flex:1;padding:10px;border-radius:8px;border:none;font-size:13.5px;cursor:pointer;font-family:inherit}
-.btn-primary{background:#5a7a5a;color:#fff}.btn-secondary{background:#e2dccf;color:#5a5248}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#2d2820;color:#faf8f4;padding:9px 18px;border-radius:20px;font-size:12.5px;z-index:300;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:13px}
+.modal-actions{display:flex;gap:9px;margin-top:14px}
+.btn{flex:1;padding:9px;border-radius:8px;border:none;font-size:13.5px;cursor:pointer;font-family:inherit}
+.btn-p{background:#5a7a5a;color:#fff}.btn-s{background:#e2dccf;color:#5a5248}
+/* Toast */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#2d2820;color:#faf8f4;padding:8px 16px;border-radius:18px;font-size:12.5px;z-index:400;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1}
-.setup-screen{position:fixed;inset:0;background:#f5f0e8;display:flex;align-items:center;justify-content:center;padding:30px;z-index:600}
+/* Setup */
+.setup{position:fixed;inset:0;background:#f5f0e8;display:flex;align-items:center;justify-content:center;padding:28px;z-index:600}
 .setup-box{background:#faf8f4;border:1px solid #e2dccf;border-radius:16px;padding:24px;width:100%;max-width:360px}
 .setup-title{font-size:18px;font-weight:700;margin-bottom:8px}
-.setup-desc{font-size:12.5px;color:#5a5248;margin-bottom:20px;line-height:1.7}
-.setup-input{width:100%;padding:10px;border:1px solid #e2dccf;border-radius:8px;font-size:13px;background:#f5f0e8;color:#2d2820;font-family:inherit;margin-bottom:12px}
+.setup-desc{font-size:12.5px;color:#5a5248;line-height:1.7;margin-bottom:18px}
+.setup-input{width:100%;padding:10px;border:1px solid #e2dccf;border-radius:8px;font-size:13px;background:#f5f0e8;color:#2d2820;font-family:inherit;margin-bottom:10px}
 .setup-btn{width:100%;padding:11px;background:#5a7a5a;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit}
+/* Loading */
 .loading{position:fixed;inset:0;background:#f5f0e8;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;z-index:500}
 .spinner{width:26px;height:26px;border:3px solid #e2dccf;border-top-color:#5a7a5a;border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -69,13 +104,12 @@ body{background:#f5f0e8;font-family:system-ui,-apple-system,'Helvetica Neue',san
 </head>
 <body>
 
-<!-- 首次设置界面 -->
-<div class="setup-screen" id="setupScreen" style="display:none">
+<div class="setup" id="setupScreen" style="display:none">
   <div class="setup-box">
     <div class="setup-title">🔑 输入访问密钥</div>
-    <div class="setup-desc">首次使用需要输入你的 GitHub Token，之后会自动记住，不需要重复输入。<br><br>Token 仅存在你这台设备的浏览器里，不会上传到任何服务器。</div>
+    <div class="setup-desc">首次使用需要输入你的 GitHub Token，之后会自动记住，不需要重复输入。<br>Token 仅保存在你的设备上，不会上传至任何服务器。</div>
     <input class="setup-input" id="tokenInput" type="password" placeholder="ghp_xxxxxxxxxx">
-    <button class="setup-btn" onclick="saveToken()">确认进入</button>
+    <button class="setup-btn" onclick="doSaveToken()">确认进入</button>
   </div>
 </div>
 
@@ -84,75 +118,147 @@ body{background:#f5f0e8;font-family:system-ui,-apple-system,'Helvetica Neue',san
   <div style="font-size:12.5px;color:#9a9284">正在加载数据…</div>
 </div>
 
+<!-- Header -->
 <div class="header">
-  <div class="header-top">
+  <div class="header-row">
     <div class="app-title">我的财务本</div>
-    <div class="sync-row"><div class="sync-dot" id="syncDot"></div><span id="syncText">已同步</span></div>
+    <div class="sync-badge"><div class="dot" id="syncDot"></div><span id="syncText">已同步</span></div>
   </div>
-  <div class="date-text" id="dateText"></div>
+  <div class="date-sub" id="dateSub"></div>
 </div>
-<div class="alert-banner" id="alertBanner" style="display:none"></div>
+
+<div class="alert" id="alertBanner" style="display:none"></div>
+
 <div class="container">
-  <div class="card">
-    <div class="card-header"><div class="card-title">本月收支</div><button class="add-btn" onclick="openModal('overview')">编辑</button></div>
-    <div class="overview-grid">
-      <div><div class="ov-label">收入</div><div class="ov-value amt-in" id="incVal">¥0</div></div>
-      <div><div class="ov-label">支出</div><div class="ov-value amt-out" id="expVal">¥0</div></div>
-      <div><div class="ov-label">结余</div><div class="ov-value" id="balVal">¥0</div></div>
+
+  <!-- ── 总览 ── -->
+  <div class="page active" id="page-overview">
+    <div class="card">
+      <div class="card-hdr"><div class="card-title">本月收支</div><button class="add-btn" onclick="goTab('records')">去记账</button></div>
+      <div class="ov-grid">
+        <div class="ov-item"><div class="ov-label">本月收入</div><div class="ov-value green" id="ov-inc">¥0</div></div>
+        <div class="ov-item"><div class="ov-label">本月支出</div><div class="ov-value red" id="ov-exp">¥0</div></div>
+        <div class="ov-item full"><div class="ov-label">本月结余</div><div class="ov-value" id="ov-bal" style="color:#5a7a5a">¥0</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hdr"><div class="card-title">现有流动资金</div><button class="add-btn" onclick="openAssetModal()">+ 添加</button></div>
+      <div class="item-list" id="ov-assets"></div>
+      <div class="total-row"><span class="total-l">合计</span><span class="total-v" id="ov-asset-total">¥0</span></div>
+    </div>
+    <div class="card">
+      <div class="card-hdr"><div class="card-title">款项提醒</div><button class="add-btn" onclick="goTab('repay')">查看全部</button></div>
+      <div class="item-list" id="ov-repay"></div>
     </div>
   </div>
-  <div class="card">
-    <div class="card-header"><div class="card-title">现有流动资金</div><button class="add-btn" onclick="openModal('asset')">+ 添加</button></div>
-    <div class="item-list" id="assetList"></div>
-    <div class="divider"><span class="total-label">合计</span><span class="total-value" id="assetTotal">¥0</span></div>
+
+  <!-- ── 收支记录 ── -->
+  <div class="page" id="page-records">
+    <div class="form-card">
+      <div class="form-title">添加记录</div>
+      <div class="type-toggle">
+        <button class="type-btn in" id="typeIn" onclick="setType('income')">＋ 收入</button>
+        <button class="type-btn" id="typeOut" onclick="setType('expense')">－ 支出</button>
+      </div>
+      <div class="field"><label>金额</label><input type="number" id="rAmt" placeholder="0.00"></div>
+      <div class="field"><label>分类</label>
+        <select id="rCat">
+          <option>工资</option><option>绩效奖金</option><option>芳疗收入</option><option>还款到账</option><option>其他收入</option>
+          <option>房贷</option><option>信用卡还款</option><option>日常支出</option><option>车位款</option><option>其他支出</option>
+        </select>
+      </div>
+      <div class="field"><label>备注</label><input type="text" id="rNote" placeholder="可选"></div>
+      <div class="field"><label>日期</label><input type="date" id="rDate"></div>
+      <button class="submit-btn" onclick="addRecord()">添加</button>
+    </div>
+    <div class="card">
+      <div class="card-hdr">
+        <div class="month-nav">
+          <button class="arrow" onclick="changeMonth(-1)">‹</button>
+          <div class="month-label" id="monthLabel"></div>
+          <button class="arrow" onclick="changeMonth(1)">›</button>
+        </div>
+      </div>
+      <div class="item-list" id="recordList"></div>
+    </div>
   </div>
-  <div class="card">
-    <div class="card-header"><div class="card-title">款项提醒</div><button class="add-btn" onclick="openModal('repayment')">+ 添加</button></div>
-    <div class="item-list" id="repayList"></div>
+
+  <!-- ── 款项提醒 ── -->
+  <div class="page" id="page-repay">
+    <div class="card">
+      <div class="card-hdr"><div class="card-title">待收款</div><button class="add-btn" onclick="openRepayModal('in')">+ 添加</button></div>
+      <div class="item-list" id="repayInList"></div>
+    </div>
+    <div class="card">
+      <div class="card-hdr"><div class="card-title">待支付</div><button class="add-btn" onclick="openRepayModal('out')">+ 添加</button></div>
+      <div class="item-list" id="repayOutList"></div>
+    </div>
   </div>
-  <div class="card">
-    <div class="card-header"><div class="card-title">储蓄目标</div><button class="add-btn" onclick="openModal('goal')">+ 添加</button></div>
-    <div class="item-list" id="goalList"></div>
+
+  <!-- ── 储蓄目标 ── -->
+  <div class="page" id="page-savings">
+    <div class="card">
+      <div class="card-hdr"><div class="card-title">我的储蓄目标</div><button class="add-btn" onclick="openGoalModal()">+ 添加</button></div>
+      <div id="goalList"></div>
+    </div>
   </div>
-  <div class="footer-note">数据自动同步至云端 · 任何设备可访问</div>
+
 </div>
+
+<!-- Bottom nav -->
+<div class="bottom-nav">
+  <button class="nav-btn active" id="nav-overview" onclick="goTab('overview')"><div class="nav-icon">🏠</div><span>总览</span></button>
+  <button class="nav-btn" id="nav-records" onclick="goTab('records')"><div class="nav-icon">📝</div><span>记账</span></button>
+  <button class="nav-btn" id="nav-repay" onclick="goTab('repay')"><div class="nav-icon">⏰</div><span>款项</span></button>
+  <button class="nav-btn" id="nav-savings" onclick="goTab('savings')"><div class="nav-icon">🎯</div><span>目标</span></button>
+</div>
+
+<!-- Overlay -->
 <div class="overlay" id="overlay" style="display:none" onclick="if(event.target===this)closeModal()">
   <div class="modal" id="modalBody"></div>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
-const OWNER='Realune928', REPO='finance-book', FILE='data.json';
+const OWNER='Realune928',REPO='finance-book',FILE='data.json';
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
-const TK_KEY='fb_token';
+const TK_KEY='fb_tk';
 
-let state=null, fileSha=null, TOKEN='';
+let state=null,fileSha=null,TOKEN='';
+let curType='income',viewY=new Date().getFullYear(),viewM=new Date().getMonth();
 
+// ─── Utils ───────────────────────────────────────────────────────
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,5);}
 function fmt(n){return(Number(n)||0).toLocaleString('zh-CN');}
+function today(){return new Date().toISOString().slice(0,10);}
 function dayDiff(d){if(!d)return null;const t=new Date();t.setHours(0,0,0,0);return Math.round((new Date(d)-t)/86400000);}
 function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
-function setSyncStatus(s){document.getElementById('syncDot').className='sync-dot'+(s==='saving'?' saving':s==='error'?' error':'');document.getElementById('syncText').textContent=s==='saving'?'同步中…':s==='error'?'同步失败':'已同步';}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+function setSyncStatus(s){
+  document.getElementById('syncDot').className='dot'+(s==='saving'?' saving':s==='error'?' error':'');
+  document.getElementById('syncText').textContent=s==='saving'?'同步中…':s==='error'?'同步失败':'已同步';
+}
 
-function saveToken(){
+// ─── Token & Setup ──────────────────────────────────────────────
+function doSaveToken(){
   const v=document.getElementById('tokenInput').value.trim();
   if(!v){showToast('请输入 Token');return;}
-  TOKEN=v;
-  localStorage.setItem(TK_KEY,v);
+  TOKEN=v;localStorage.setItem(TK_KEY,v);
   document.getElementById('setupScreen').style.display='none';
   document.getElementById('loading').style.display='flex';
   loadData();
 }
 
+// ─── GitHub API ─────────────────────────────────────────────────
 async function loadData(){
   try{
     const r=await fetch(API+'?t='+Date.now(),{headers:{Authorization:'token '+TOKEN,Accept:'application/vnd.github.v3+json'}});
     if(r.status===401){localStorage.removeItem(TK_KEY);location.reload();return;}
     const d=await r.json();
     fileSha=d.sha;
-    state=JSON.parse(atob(d.content.replace(/\n/g,'')));
-    state.assets=state.assets||[];state.repayments=state.repayments||[];state.goals=state.goals||[];
+    const json=new TextDecoder().decode(Uint8Array.from(atob(d.content.replace(/\n/g,'')),c=>c.charCodeAt(0)));
+    state=JSON.parse(json);
+    state.assets=state.assets||[];state.repayments=state.repayments||[];state.goals=state.goals||[];state.records=state.records||[];
   }catch(e){showToast('加载失败，请检查网络');}
   document.getElementById('loading').style.display='none';
   renderAll();
@@ -161,80 +267,147 @@ async function loadData(){
 async function saveData(){
   setSyncStatus('saving');
   try{
-    const jsonStr=JSON.stringify(state,null,2);
-    const bytes=new TextEncoder().encode(jsonStr);
-    const binStr=Array.from(bytes,b=>String.fromCharCode(b)).join('');
-    const content=btoa(binStr);
+    const bytes=new TextEncoder().encode(JSON.stringify(state,null,2));
+    const content=btoa(Array.from(bytes,b=>String.fromCharCode(b)).join(''));
     const r=await fetch(API,{method:'PUT',headers:{Authorization:'token '+TOKEN,'Content-Type':'application/json'},body:JSON.stringify({message:'更新财务数据',content,sha:fileSha})});
     const d=await r.json();fileSha=d.content.sha;setSyncStatus('ok');
   }catch(e){setSyncStatus('error');showToast('同步失败，请检查网络');}
 }
 
-function renderDate(){const n=new Date();document.getElementById('dateText').textContent=n.getFullYear()+'年'+(n.getMonth()+1)+'月'+n.getDate()+'日 · '+'日一二三四五六'[n.getDay()];}
+// ─── Tab navigation ─────────────────────────────────────────────
+function goTab(tab){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+tab).classList.add('active');
+  document.getElementById('nav-'+tab).classList.add('active');
+  renderAll();
+}
+
+// ─── Render ─────────────────────────────────────────────────────
+function renderDate(){
+  const n=new Date();
+  document.getElementById('dateSub').textContent=n.getFullYear()+'年'+(n.getMonth()+1)+'月'+n.getDate()+'日 · '+'日一二三四五六'[n.getDay()];
+  document.getElementById('rDate').value=today();
+}
+
 function renderOverview(){
-  document.getElementById('incVal').textContent='¥'+fmt(state.income);
-  document.getElementById('expVal').textContent='¥'+fmt(state.expense);
-  const bal=state.income-state.expense;const el=document.getElementById('balVal');
-  el.textContent='¥'+fmt(bal);el.style.color=bal>=0?'#5a7a5a':'#c47a6a';
+  const now=new Date();
+  const mRecs=(state.records||[]).filter(r=>{const d=new Date(r.date);return d.getFullYear()===now.getFullYear()&&d.getMonth()===now.getMonth();});
+  const inc=mRecs.filter(r=>r.type==='income').reduce((s,r)=>s+r.amount,0);
+  const exp=mRecs.filter(r=>r.type==='expense').reduce((s,r)=>s+r.amount,0);
+  const bal=inc-exp;
+  document.getElementById('ov-inc').textContent='¥'+fmt(inc);
+  document.getElementById('ov-exp').textContent='¥'+fmt(exp);
+  const bel=document.getElementById('ov-bal');bel.textContent='¥'+fmt(bal);bel.style.color=bal>=0?'#5a7a5a':'#c47a6a';
+
+  // Assets
+  const al=document.getElementById('ov-assets');
+  al.innerHTML=state.assets.length?state.assets.map(a=>`<div class="row"><div class="row-l"><div class="row-name">${esc(a.name)}</div></div><div class="row-r"><div class="row-amt green">¥${fmt(a.amount)}</div><button class="tbtn" onclick="deleteAsset('${a.id}')">✕</button></div></div>`).join(''):'<div class="empty">暂无记录，点击添加</div>';
+  document.getElementById('ov-asset-total').textContent='¥'+fmt(state.assets.reduce((s,a)=>s+(Number(a.amount)||0),0));
+
+  // Repay preview (top 3 pending)
+  const pending=state.repayments.filter(r=>!r.done).sort((a,b)=>{if(!a.date)return 1;if(!b.date)return -1;return new Date(a.date)-new Date(b.date);}).slice(0,3);
+  const rl=document.getElementById('ov-repay');
+  rl.innerHTML=pending.length?pending.map(r=>repayRow(r)).join(''):'<div class="empty">暂无待处理款项 🌸</div>';
 }
-function renderAssets(){
-  const list=document.getElementById('assetList');
-  list.innerHTML=state.assets.length?state.assets.map(a=>`<div class="row-item"><div class="row-left"><div class="row-name">${esc(a.name)}</div></div><div class="row-right"><div class="row-amt amt-in">¥${fmt(a.amount)}</div><button class="tiny-btn" onclick="deleteAsset('${a.id}')">✕</button></div></div>`).join(''):'<div class="empty-hint">暂无记录，点击添加</div>';
-  document.getElementById('assetTotal').textContent='¥'+fmt(state.assets.reduce((s,a)=>s+(Number(a.amount)||0),0));
+
+function repayRow(r){
+  let dotCls='sp',txt='';
+  if(r.done){dotCls='sd';txt=r.type==='out'?'已结清':'已到账';}
+  else if(!r.date){txt='待处理 · 无截止日期';}
+  else{const d=dayDiff(r.date);if(d<0){dotCls='so';txt=r.date+' · 逾期'+Math.abs(d)+'天';}else if(d===0){txt=r.date+' · 今天到期';}else{txt=r.date+' · 剩'+d+'天';}}
+  const isIn=r.type!=='out';
+  return`<div class="row"><div class="row-l"><div class="row-name">${esc(r.name)}</div><div class="row-meta"><span class="sdot ${dotCls}"></span>${txt}</div></div><div class="row-r"><div class="row-amt ${isIn?'green':'red'}">${isIn?'+':'-'}¥${fmt(r.amount)}</div><button class="tbtn" onclick="toggleRepay('${r.id}')">${r.done?'↺':'✓'}</button><button class="tbtn" onclick="deleteRepay('${r.id}')">✕</button></div></div>`;
 }
-function renderRepayments(){
-  const list=document.getElementById('repayList');
-  if(!state.repayments.length){list.innerHTML='<div class="empty-hint">暂无记录，点击添加</div>';return;}
-  const sorted=[...state.repayments].sort((a,b)=>{if(!a.date)return 1;if(!b.date)return -1;return new Date(a.date)-new Date(b.date);});
-  list.innerHTML=sorted.map(r=>{
-    let dotCls='dot-pending',txt='';
-    if(r.done){dotCls='dot-done';txt=r.type==='out'?'已结清':'已到账';}
-    else if(!r.date){txt='待处理 · 无截止日期';}
-    else{const d=dayDiff(r.date);if(d<0){dotCls='dot-overdue';txt=r.date+' · 逾期'+Math.abs(d)+'天';}else if(d===0){txt=r.date+' · 今天到期';}else{txt=r.date+' · 剩'+d+'天';}}
-    const isIn=r.type!=='out';
-    return`<div class="row-item"><div class="row-left"><div class="row-name">${esc(r.name)}</div><div class="row-meta"><span class="status-dot ${dotCls}"></span>${txt}</div></div><div class="row-right"><div class="row-amt ${isIn?'amt-in':'amt-out'}">${isIn?'+':'-'}¥${fmt(r.amount)}</div><button class="tiny-btn" onclick="toggleRepay('${r.id}')">${r.done?'↺':'✓'}</button><button class="tiny-btn" onclick="deleteRepay('${r.id}')">✕</button></div></div>`;
+
+function renderRepay(){
+  const inList=state.repayments.filter(r=>r.type==='in').sort((a,b)=>{if(!a.date)return 1;if(!b.date)return -1;return new Date(a.date)-new Date(b.date);});
+  const outList=state.repayments.filter(r=>r.type==='out').sort((a,b)=>{if(!a.date)return 1;if(!b.date)return -1;return new Date(a.date)-new Date(b.date);});
+  document.getElementById('repayInList').innerHTML=inList.length?inList.map(repayRow).join(''):'<div class="empty">暂无待收款项 🌸</div>';
+  document.getElementById('repayOutList').innerHTML=outList.length?outList.map(repayRow).join(''):'<div class="empty">暂无待支付款项</div>';
+}
+
+function renderRecords(){
+  const label=viewY+'年'+(viewM+1)+'月';
+  document.getElementById('monthLabel').textContent=label;
+  const recs=(state.records||[]).filter(r=>{const d=new Date(r.date);return d.getFullYear()===viewY&&d.getMonth()===viewM;}).sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const rl=document.getElementById('recordList');
+  if(!recs.length){rl.innerHTML='<div class="empty">本月暂无记录</div>';return;}
+  rl.innerHTML=recs.map(r=>`<div class="row"><div class="row-l"><div class="row-name">${esc(r.cat)}${r.note?' · '+esc(r.note):''}</div><div class="row-meta">${r.date}</div></div><div class="row-r"><div class="row-amt ${r.type==='income'?'green':'red'}">${r.type==='income'?'+':'-'}¥${fmt(r.amount)}</div><button class="tbtn" onclick="deleteRecord('${r.id}')">✕</button></div></div>`).join('');
+}
+
+function renderGoals(){
+  const gl=document.getElementById('goalList');
+  if(!state.goals.length){gl.innerHTML='<div class="empty" style="padding:12px 0">为自己设定一个目标吧 🌸</div>';return;}
+  gl.innerHTML=state.goals.map(g=>{
+    const pct=g.target>0?Math.min(100,Math.round(g.current/g.target*100)):0;
+    return`<div class="goal-block"><div class="goal-top"><div class="goal-name">${esc(g.name)}</div><div class="goal-pct">${pct}%</div></div><div class="track"><div class="fill" style="width:${pct}%"></div></div><div class="goal-bot"><div class="goal-sub">¥${fmt(g.current)} / ¥${fmt(g.target)}</div><div><button class="tbtn" onclick="openGoalUpdate('${g.id}')">更新</button><button class="tbtn" onclick="deleteGoal('${g.id}')">✕</button></div></div></div>`;
   }).join('');
 }
-function renderGoals(){
-  const list=document.getElementById('goalList');
-  if(!state.goals.length){list.innerHTML='<div class="empty-hint">暂无目标，点击添加</div>';return;}
-  list.innerHTML=state.goals.map(g=>{const pct=g.target>0?Math.min(100,Math.round(g.current/g.target*100)):0;return`<div class="goal-item"><div class="goal-top"><div class="goal-name">${esc(g.name)}</div><div class="goal-amt">¥${fmt(g.current)} / ¥${fmt(g.target)} · ${pct}%</div></div><div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div><div class="goal-actions"><button class="tiny-btn" onclick="openGoalUpdate('${g.id}')">更新</button><button class="tiny-btn" onclick="deleteGoal('${g.id}')">✕</button></div></div>`;}).join('');
-}
+
 function renderAlert(){
   const banner=document.getElementById('alertBanner');
   const urgent=state.repayments.filter(r=>{if(r.done||!r.date)return false;const d=dayDiff(r.date);return d!==null&&d>=0&&d<=7;});
   if(urgent.length){banner.style.display='block';banner.innerHTML='<strong>⏰ 提醒：</strong>'+urgent.map(r=>`${esc(r.name)}（${r.date}，${r.type==='out'?'需支付':'待收'}¥${fmt(r.amount)}）`).join('、')+' 即将到期';}
   else{banner.style.display='none';}
 }
-function renderAll(){renderDate();renderOverview();renderAssets();renderRepayments();renderGoals();renderAlert();}
 
-async function deleteAsset(id){state.assets=state.assets.filter(a=>a.id!==id);renderAssets();await saveData();}
-async function toggleRepay(id){const r=state.repayments.find(x=>x.id===id);if(r)r.done=!r.done;renderRepayments();renderAlert();await saveData();}
-async function deleteRepay(id){state.repayments=state.repayments.filter(x=>x.id!==id);renderRepayments();renderAlert();await saveData();}
-async function deleteGoal(id){state.goals=state.goals.filter(x=>x.id!==id);renderGoals();await saveData();}
+function renderAll(){renderDate();renderOverview();renderRepay();renderRecords();renderGoals();renderAlert();}
 
-function openModal(type){document.getElementById('overlay').style.display='flex';renderModal(type);}
-function closeModal(){document.getElementById('overlay').style.display='none';}
-function renderModal(type){
-  const today=new Date().toISOString().slice(0,10);let html='';
-  if(type==='overview'){html=`<div class="modal-title">编辑本月收支</div><div class="field"><label>本月收入</label><input id="mInc" type="number" value="${state.income}"></div><div class="field"><label>本月支出</label><input id="mExp" type="number" value="${state.expense}"></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveOverview()">保存</button></div>`;}
-  else if(type==='asset'){html=`<div class="modal-title">添加流动资金</div><div class="field"><label>名称</label><input id="mAName" placeholder="如：现金储备"></div><div class="field"><label>金额</label><input id="mAAmt" type="number" placeholder="0"></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveAsset()">保存</button></div>`;}
-  else if(type==='repayment'){html=`<div class="modal-title">添加款项提醒</div><div class="field"><label>类型</label><select id="mRType"><option value="in">待收款（对方欠我）</option><option value="out">待支付（我欠对方）</option></select></div><div class="field"><label>名称</label><input id="mRName" placeholder="如：信用卡还款"></div><div class="field"><label>金额</label><input id="mRAmt" type="number" placeholder="0"></div><div class="field"><label>到期日期（可留空）</label><input id="mRDate" type="date" value="${today}"></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveRepayment()">保存</button></div>`;}
-  else if(type==='goal'){html=`<div class="modal-title">添加储蓄目标</div><div class="field"><label>目标名称</label><input id="mGName" placeholder="如：买房首付"></div><div class="field"><label>目标金额</label><input id="mGTarget" type="number" placeholder="0"></div><div class="field"><label>当前金额</label><input id="mGCurrent" type="number" placeholder="0"></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveGoal()">保存</button></div>`;}
-  document.getElementById('modalBody').innerHTML=html;
+// ─── Records ────────────────────────────────────────────────────
+function setType(t){
+  curType=t;
+  document.getElementById('typeIn').className='type-btn'+(t==='income'?' in':'');
+  document.getElementById('typeOut').className='type-btn'+(t==='expense'?' out':'');
+}
+function changeMonth(d){viewM+=d;if(viewM<0){viewM=11;viewY--;}if(viewM>11){viewM=0;viewY++;}renderRecords();}
+async function addRecord(){
+  const amt=parseFloat(document.getElementById('rAmt').value);
+  const cat=document.getElementById('rCat').value;
+  const note=document.getElementById('rNote').value.trim();
+  const date=document.getElementById('rDate').value;
+  if(!amt||!date){showToast('请填写金额和日期');return;}
+  state.records=(state.records||[]);
+  state.records.push({id:uid(),type:curType,amount:amt,cat,note,date});
+  document.getElementById('rAmt').value='';document.getElementById('rNote').value='';
+  renderAll();await saveData();showToast('已添加');
+}
+async function deleteRecord(id){state.records=state.records.filter(x=>x.id!==id);renderRecords();renderOverview();await saveData();}
+
+// ─── Assets ─────────────────────────────────────────────────────
+function openAssetModal(){
+  document.getElementById('overlay').style.display='flex';
+  document.getElementById('modalBody').innerHTML=`<div class="modal-title">添加流动资金</div><div class="field"><label>名称</label><input id="mAName" placeholder="如：现金储备"></div><div class="field"><label>金额</label><input id="mAAmt" type="number" placeholder="0"></div><div class="modal-actions"><button class="btn btn-s" onclick="closeModal()">取消</button><button class="btn btn-p" onclick="saveAsset()">保存</button></div>`;
+}
+async function saveAsset(){const name=document.getElementById('mAName').value.trim();if(!name){showToast('请填写名称');return;}state.assets.push({id:uid(),name,amount:Number(document.getElementById('mAAmt').value)||0});closeModal();renderOverview();await saveData();}
+async function deleteAsset(id){state.assets=state.assets.filter(a=>a.id!==id);renderOverview();await saveData();}
+
+// ─── Repayments ─────────────────────────────────────────────────
+function openRepayModal(defaultType){
+  document.getElementById('overlay').style.display='flex';
+  document.getElementById('modalBody').innerHTML=`<div class="modal-title">添加款项提醒</div><div class="field"><label>类型</label><select id="mRType"><option value="in" ${defaultType==='in'?'selected':''}>待收款（对方欠我）</option><option value="out" ${defaultType==='out'?'selected':''}>待支付（我欠对方）</option></select></div><div class="field"><label>名称</label><input id="mRName" placeholder="如：信用卡还款"></div><div class="field"><label>金额</label><input id="mRAmt" type="number" placeholder="0"></div><div class="field"><label>到期日期（可留空）</label><input id="mRDate" type="date" value="${today()}"></div><div class="modal-actions"><button class="btn btn-s" onclick="closeModal()">取消</button><button class="btn btn-p" onclick="saveRepay()">保存</button></div>`;
+}
+async function saveRepay(){const name=document.getElementById('mRName').value.trim();if(!name){showToast('请填写名称');return;}state.repayments.push({id:uid(),type:document.getElementById('mRType').value,name,amount:Number(document.getElementById('mRAmt').value)||0,date:document.getElementById('mRDate').value,done:false});closeModal();renderRepay();renderOverview();renderAlert();await saveData();}
+async function toggleRepay(id){const r=state.repayments.find(x=>x.id===id);if(r)r.done=!r.done;renderRepay();renderOverview();renderAlert();await saveData();}
+async function deleteRepay(id){state.repayments=state.repayments.filter(x=>x.id!==id);renderRepay();renderOverview();renderAlert();await saveData();}
+
+// ─── Goals ──────────────────────────────────────────────────────
+function openGoalModal(){
+  document.getElementById('overlay').style.display='flex';
+  document.getElementById('modalBody').innerHTML=`<div class="modal-title">添加储蓄目标</div><div class="field"><label>目标名称</label><input id="mGName" placeholder="如：买房首付"></div><div class="field"><label>目标金额</label><input id="mGTarget" type="number" placeholder="0"></div><div class="field"><label>当前已存</label><input id="mGCurrent" type="number" placeholder="0"></div><div class="modal-actions"><button class="btn btn-s" onclick="closeModal()">取消</button><button class="btn btn-p" onclick="saveGoal()">保存</button></div>`;
 }
 function openGoalUpdate(id){
   const g=state.goals.find(x=>x.id===id);if(!g)return;
   document.getElementById('overlay').style.display='flex';
-  document.getElementById('modalBody').innerHTML=`<div class="modal-title">更新「${esc(g.name)}」</div><div class="field"><label>当前金额</label><input id="mGUpd" type="number" value="${g.current}"></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveGoalUpdate('${g.id}')">保存</button></div>`;
+  document.getElementById('modalBody').innerHTML=`<div class="modal-title">更新「${esc(g.name)}」</div><div class="field"><label>当前已存</label><input id="mGUpd" type="number" value="${g.current}"></div><div class="modal-actions"><button class="btn btn-s" onclick="closeModal()">取消</button><button class="btn btn-p" onclick="saveGoalUpdate('${id}')">保存</button></div>`;
 }
-async function saveOverview(){state.income=Number(document.getElementById('mInc').value)||0;state.expense=Number(document.getElementById('mExp').value)||0;closeModal();renderOverview();await saveData();}
-async function saveAsset(){const name=document.getElementById('mAName').value.trim();if(!name){showToast('请填写名称');return;}state.assets.push({id:uid(),name,amount:Number(document.getElementById('mAAmt').value)||0});closeModal();renderAssets();await saveData();}
-async function saveRepayment(){const name=document.getElementById('mRName').value.trim();if(!name){showToast('请填写名称');return;}state.repayments.push({id:uid(),type:document.getElementById('mRType').value,name,amount:Number(document.getElementById('mRAmt').value)||0,date:document.getElementById('mRDate').value,done:false});closeModal();renderRepayments();renderAlert();await saveData();}
 async function saveGoal(){const name=document.getElementById('mGName').value.trim();const target=Number(document.getElementById('mGTarget').value)||0;if(!name||!target){showToast('请填写名称和目标金额');return;}state.goals.push({id:uid(),name,target,current:Number(document.getElementById('mGCurrent').value)||0});closeModal();renderGoals();await saveData();}
 async function saveGoalUpdate(id){const g=state.goals.find(x=>x.id===id);if(g)g.current=Number(document.getElementById('mGUpd').value)||0;closeModal();renderGoals();await saveData();}
+async function deleteGoal(id){state.goals=state.goals.filter(x=>x.id!==id);renderGoals();await saveData();}
 
-// 启动
+function closeModal(){document.getElementById('overlay').style.display='none';}
+
+// ─── Boot ────────────────────────────────────────────────────────
 const saved=localStorage.getItem(TK_KEY);
 if(saved){TOKEN=saved;loadData();}
 else{document.getElementById('loading').style.display='none';document.getElementById('setupScreen').style.display='flex';}
