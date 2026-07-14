@@ -161,7 +161,10 @@ async function loadData(){
 async function saveData(){
   setSyncStatus('saving');
   try{
-    const content=btoa(unescape(encodeURIComponent(JSON.stringify(state,null,2))));
+    const jsonStr=JSON.stringify(state,null,2);
+    const bytes=new TextEncoder().encode(jsonStr);
+    const binStr=Array.from(bytes,b=>String.fromCharCode(b)).join('');
+    const content=btoa(binStr);
     const r=await fetch(API,{method:'PUT',headers:{Authorization:'token '+TOKEN,'Content-Type':'application/json'},body:JSON.stringify({message:'更新财务数据',content,sha:fileSha})});
     const d=await r.json();fileSha=d.content.sha;setSyncStatus('ok');
   }catch(e){setSyncStatus('error');showToast('同步失败，请检查网络');}
