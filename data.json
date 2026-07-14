@@ -61,6 +61,14 @@
       "amount": 83000,
       "date": "2026-07-21",
       "done": false
+    },
+    {
+      "id": "mrklsb69n9c",
+      "type": "out",
+      "name": "交行信用卡",
+      "amount": 58365,
+      "date": "2026-08-04",
+      "done": false
     }
   ],
   "goals": [],
