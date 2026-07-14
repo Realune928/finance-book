@@ -2,16 +2,63 @@
   "income": 14800,
   "expense": 4600,
   "assets": [
-    {"id":"a1","name":"现金储备","amount":27000},
-    {"id":"a2","name":"公积金账户余额","amount":112000},
-    {"id":"a3","name":"保险到账","amount":115000}
+    {
+      "id": "a1",
+      "name": "现金储备",
+      "amount": 27000
+    },
+    {
+      "id": "a2",
+      "name": "公积金账户余额",
+      "amount": 112000
+    },
+    {
+      "id": "a3",
+      "name": "保险到账",
+      "amount": 115000
+    }
   ],
   "repayments": [
-    {"id":"r1","name":"前夫还款·第一笔余款（3万已到账剩9万）","amount":90000,"date":"2026-03-28","type":"in","done":false},
-    {"id":"r2","name":"前夫还款·第二笔","amount":100000,"date":"2026-04-28","type":"in","done":false},
-    {"id":"r3","name":"前夫还款·第三笔","amount":300000,"date":"2026-05-28","type":"in","done":false},
-    {"id":"r4","name":"招商信用卡还款","amount":24000,"date":"2026-05-09","type":"out","done":false},
-    {"id":"r5","name":"车位尾款（总价11万已付2万）","amount":90000,"date":"","type":"out","done":false}
+    {
+      "id": "r1",
+      "name": "前夫还款·第一笔余款（3万已到账剩9万）",
+      "amount": 90000,
+      "date": "2026-03-28",
+      "type": "in",
+      "done": false
+    },
+    {
+      "id": "r2",
+      "name": "前夫还款·第二笔",
+      "amount": 100000,
+      "date": "2026-04-28",
+      "type": "in",
+      "done": false
+    },
+    {
+      "id": "r3",
+      "name": "前夫还款·第三笔",
+      "amount": 300000,
+      "date": "2026-05-28",
+      "type": "in",
+      "done": false
+    },
+    {
+      "id": "r4",
+      "name": "招商信用卡还款",
+      "amount": 24000,
+      "date": "2026-05-09",
+      "type": "out",
+      "done": false
+    },
+    {
+      "id": "r5",
+      "name": "车位尾款（总价11万已付2万）",
+      "amount": 90000,
+      "date": "",
+      "type": "out",
+      "done": false
+    }
   ],
   "goals": []
 }
