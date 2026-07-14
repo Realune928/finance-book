@@ -39,14 +39,6 @@
       "done": false
     },
     {
-      "id": "r4",
-      "name": "招商信用卡还款",
-      "amount": 24000,
-      "date": "2026-05-09",
-      "type": "out",
-      "done": true
-    },
-    {
       "id": "r5",
       "name": "车位尾款（总价11万已付2万）",
       "amount": 90000,
