@@ -63,6 +63,13 @@
       "done": false
     }
   ],
-  "goals": [],
+  "goals": [
+    {
+      "id": "mrkltl7sz81",
+      "name": "2026存钱",
+      "target": 50000,
+      "current": 0
+    }
+  ],
   "records": []
 }
