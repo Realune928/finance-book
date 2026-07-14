@@ -53,6 +53,14 @@
       "date": "",
       "type": "out",
       "done": true
+    },
+    {
+      "id": "mrklr8fgsbg",
+      "type": "out",
+      "name": "招行信用卡",
+      "amount": 83000,
+      "date": "2026-07-21",
+      "done": false
     }
   ],
   "goals": [],
