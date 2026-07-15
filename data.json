@@ -71,5 +71,14 @@
       "current": 0
     }
   ],
-  "records": []
+  "records": [
+    {
+      "id": "mrm38srhyhl",
+      "type": "income",
+      "amount": 278,
+      "cat": "芳疗收入",
+      "note": "夏女士定制",
+      "date": "2026-07-15"
+    }
+  ]
 }
